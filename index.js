@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const baseUrl = "http://localhost:3001/api/notes";
 app.use(express.json());
-
+app.use(express.static("build"));
 const cors = require("cors");
 
 app.use(cors());
