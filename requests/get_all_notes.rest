@@ -8,3 +8,6 @@ content-type: application/json
     "name": "sample",
     "time": "Wed, 21 Oct 2015 18:27:50 GMT"
 }
+
+###
+DELETE http://localhost:3001/api/notes/60b4e3bcf2520b19166b252d
