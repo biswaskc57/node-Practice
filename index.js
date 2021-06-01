@@ -6,16 +6,14 @@ app.use(express.json());
 app.use(express.static("build"));
 const morgan = require("morgan");
 morgan.token("body", (req, res) => JSON.stringify(req.body));
-
-const cors = require("cors");
-app.use(cors());
-//:body comes from morgan.token("body",...)
 app.use(
   morgan(":method :url :status :response-time ms - :res[content-length] :body ")
 );
-
+const cors = require("cors");
+app.use(cors());
 require("dotenv").config();
 const Note = require("./models/note");
+//:body comes from morgan.token("body",...)
 
 /*
 note.save().then((result) => {
@@ -110,7 +108,7 @@ app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
 
-const PORT = process.env.PORT || localPORT;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
