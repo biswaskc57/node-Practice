@@ -37,8 +37,6 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
 };
 
-// handler of requests with unknown endpoint
-
 app.post("/api/notes", (request, response) => {
   const body = request.body;
   console.log(request.params);
@@ -62,7 +60,7 @@ app.post("/api/notes", (request, response) => {
 
 app.get("/api/notes", (request, response) => {
   Note.find({}).then((notes) => {
-    response.json(notes);
+    response.json(notes.map((note) => note.toJSON()));
   });
 });
 
