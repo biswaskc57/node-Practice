@@ -6,11 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "rm -rf build && cd ../Fullstack/Part2/Part2.1 && npm run build --prod && cp -r build ../practiceNode",
-    "deploy": "git push heroku main",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
-    "logs:prod": "heroku logs --tail"
+    "test": "echo \"Error: no test specified\" && exit 1"
+    
   },
   "keywords": [
     "node"

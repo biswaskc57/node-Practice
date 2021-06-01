@@ -1,18 +1,21 @@
-const express = require("express");
+require("dotenv").config();
 
+const express = require("express");
+const morgan = require("morgan");
+const cors = require("cors");
 const app = express();
-app.use(express.json());
+
+const Note = require("./models/note");
 
 app.use(express.static("build"));
-const morgan = require("morgan");
-morgan.token("body", (req, res) => JSON.stringify(req.body));
+app.use(express.json());
+app.use(cors());
+
+morgan.token("body", (req) => JSON.stringify(req.body));
 app.use(
   morgan(":method :url :status :response-time ms - :res[content-length] :body ")
 );
-const cors = require("cors");
-app.use(cors());
-require("dotenv").config();
-const Note = require("./models/note");
+
 //:body comes from morgan.token("body",...)
 
 /*
@@ -20,6 +23,21 @@ note.save().then((result) => {
   console.log("note saved!");
   mongoose.connection.close();
 });*/
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  }
+
+  next(error);
+};
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
+// handler of requests with unknown endpoint
 
 app.post("/api/notes", (request, response) => {
   const body = request.body;
@@ -85,28 +103,13 @@ app.put("/api/notes/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" });
-};
-
-// handler of requests with unknown endpoint
-app.use(unknownEndpoint);
-
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message);
-
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" });
-  }
-
-  next(error);
-};
-
-// this has to be the last loaded middleware.
-app.use(errorHandler);
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
+
+// this has to be the last loaded middleware.
+app.use(errorHandler);
+app.use(unknownEndpoint);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
