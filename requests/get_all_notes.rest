@@ -5,8 +5,9 @@ POST http://localhost:3001/api/notes
 content-type: application/json
 
 {
-    "name": "sample",
-    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+    "content": "pe",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT",
+    "important": true
 }
 
 ###

@@ -28,6 +28,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
   }
 
   next(error);
@@ -37,7 +39,7 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
 };
 
-app.post("/api/notes", (request, response) => {
+app.post("/api/notes", (request, response, next) => {
   const body = request.body;
   console.log(request.params);
   console.log(request.body);
@@ -52,10 +54,13 @@ app.post("/api/notes", (request, response) => {
     important: body.important || false,
   });
 
-  note.save().then((savedNote) => {
-    response.json(savedNote);
-    console.log(savedNote);
-  });
+  note
+    .save()
+    .then((savedNote) => savedNote.toJSON())
+    .then((savedAndFormattedNote) => {
+      response.json(savedAndFormattedNote);
+    })
+    .catch((error) => next(error));
 });
 
 app.get("/api/notes", (request, response) => {
@@ -68,7 +73,7 @@ app.get("/api/notes/:id", (request, response) => {
   Note.findById(request.params.id)
     .then((note) => {
       if (note) {
-        response.json(note);
+        response.json(note.toJSON());
       } else {
         response.status(404).end();
       }
@@ -96,7 +101,7 @@ app.put("/api/notes/:id", (request, response, next) => {
 
   Note.findByIdAndUpdate(request.params.id, note, { new: true })
     .then((updatedNote) => {
-      response.json(updatedNote);
+      response.json(updatedNote.toJSON());
     })
     .catch((error) => next(error));
 });
