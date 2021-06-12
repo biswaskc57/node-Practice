@@ -5,9 +5,10 @@ POST http://localhost:3001/api/notes
 content-type: application/json
 
 {
-    "content": "pe",
+    "content": "Live in the moment to enjoy the life",
     "time": "Wed, 21 Oct 2015 18:27:50 GMT",
-    "important": true
+    "important": true,
+    "userId": "60c48f0c2aed5e0cfd2497b6"
 }
 
 ###
