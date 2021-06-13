@@ -2,13 +2,12 @@ GET http://localhost:3001/api/notes/
 
 ###
 POST http://localhost:3001/api/notes
-content-type: application/json
-
+Content-type: application/json 
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtjQmlzc2UiLCJpZCI6IjYwYzQ4ZjBjMmFlZDVlMGNmZDI0OTdiNiIsImlhdCI6MTYyMzU3MTg3N30.ugfmbZSt0CWwLEbEQDFh0va7pfaVl5svDiMvjNb8DVo
 {
-    "content": "Live in the moment to enjoy the life",
-    "time": "Wed, 21 Oct 2015 18:27:50 GMT",
-    "important": true,
-    "userId": "60c48f0c2aed5e0cfd2497b6"
+    "content": "Wanglung was a hard worker",
+    "important": true
+
 }
 
 ###
