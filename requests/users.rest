@@ -3,7 +3,17 @@ content-type: application/json
 
 {
     "notes": [],
-    "username": "kcBisse",
+    "username": "KcBisse",
     "name": "Biswas KC",
+    "password": "Terobau"
+}
+
+###
+POST http://localhost:3001/api/testing/reset
+content-type: application/json
+
+{
+    "username": "kc2322323",
+    "name": "asas",
     "password": "Terobau"
 }
